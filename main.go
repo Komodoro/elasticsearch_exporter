@@ -75,8 +75,11 @@ func main() {
 			"Sets the log format. Valid formats are json and logfmt").
 			Default("logfmt").Envar("LOG_FMT").String()
 		logOutput = kingpin.Flag("log.output",
-			"Sets the log output. Valid outputs are stdout and stderr").
+			"Sets the log output. Valid outputs are stdout and stderr. Blah blah blahm ").
 			Default("stdout").Envar("LOG_OUTPUT").String()
+		esClusterNodeInfo = kingpin.Flag("es.clusternode",
+			"Export info of node being in the cluster").
+			Default("false").Envar("ES_CLUSTERNODE").Bool()
 	)
 
 	kingpin.Version(version.Print(Name))
@@ -134,6 +137,11 @@ func main() {
 
 	if *esExportIndicesSettings {
 		prometheus.MustRegister(collector.NewIndicesSettings(logger, httpClient, esURL))
+	}
+
+	//new flag to get nodes info on cluster. Primarilly and only if they exist
+	if *esClusterNodeInfo {
+		prometheus.MustRegister(collector.NewNodeInCluster(logger, httpClient, esURL, *esNode))
 	}
 
 	// create a http server

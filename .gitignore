@@ -4,3 +4,9 @@ elasticsearch_exporter
 *-stamp
 .idea
 *~
+_*
+*.lock
+*.toml
+.vscode
+*.orig
+tests

@@ -4,12 +4,12 @@
 
 Prometheus exporter for various metrics about ElasticSearch, written in Go.
 
-### Installation
+## Installation
 
 For pre-built binaries please take a look at the releases.
-https://github.com/justwatchcom/elasticsearch_exporter/releases
+<https://github.com/justwatchcom/elasticsearch_exporter/releases>
 
-#### Docker
+### Docker
 
 ```bash
 docker pull justwatch/elasticsearch_exporter:1.0.2
@@ -22,28 +22,29 @@ Example `docker-compose.yml`:
 elasticsearch_exporter:
     image: justwatch/elasticsearch_exporter:1.0.2
     command:
-     - '-es.uri=http://elasticsearch:9200'
+     - '--es.uri=http://elasticsearch:9200'
     restart: always
     ports:
-    - "127.0.0.1:9114:9114"
+    - "127.0.0.1:9114"
 ```
 
-#### Kubernetes
+### Kubernetes
 
-You can find a helm chart in the stable charts repository at https://github.com/kubernetes/charts/tree/master/stable/elasticsearch-exporter.
+You can find a helm chart in the stable charts repository at <https://github.com/kubernetes/charts/tree/master/stable/elasticsearch-exporter.>
 
-### Configuration
+## Configuration
 
-**NOTE:** The exporter fetches information from an ElasticSearch cluster on every scrape, therefore having a too short scrape interval can impose load on ES master nodes, particularly if you run with `-es.all` and `-es.indices`. We suggest you measure how long fetching `/_nodes/stats` and `/_all/_stats` takes for your ES cluster to determine whether your scraping interval is too short. As a last resort, you can scrape this exporter using a dedicated job with its own scraping interval.
+**NOTE:** The exporter fetches information from an ElasticSearch cluster on every scrape, therefore having a too short scrape interval can impose load on ES master nodes, particularly if you run with `--es.all` and `--es.indices`. We suggest you measure how long fetching `/_nodes/stats` and `/_all/_stats` takes for your ES cluster to determine whether your scraping interval is too short. As a last resort, you can scrape this exporter using a dedicated job with its own scraping interval.
 
 Below is the command line options summary:
+
 ```bash
 elasticsearch_exporter --help
 ```
 
 | Argument                | Introduced in Version | Description | Default     |
 | --------                | --------------------- | ----------- | ----------- |
-| es.uri                  | 1.0.2                 | Address (host and port) of the Elasticsearch node we should connect to. This could be a local node (`localhost:9200`, for instance), or the address of a remote Elasticsearch server. When basic auth is needed, specify as: `<proto>://<user>:<password>@<host>:<port>`. E.G., `http://admin:pass@localhost:9200`. | http://localhost:9200 |
+| es.uri                  | 1.0.2                 | Address (host and port) of the Elasticsearch node we should connect to. This could be a local node (`localhost:9200`, for instance), or the address of a remote Elasticsearch server. When basic auth is needed, specify as: `<proto>://<user>:<password>@<host>:<port>`. E.G., `<http://admin:pass@localhost:9200>`. | http://localhost:9200 |
 | es.all                  | 1.0.2                 | If true, query stats for all nodes in the cluster, rather than just the node we connect to.                             | false |
 | es.cluster_settings     | 1.0.4rc1              | If true, query stats for cluster settings. | false |
 | es.indices              | 1.0.4rc1              | If true, query stats for all indices in the cluster. | false |
@@ -59,12 +60,13 @@ elasticsearch_exporter --help
 | web.listen-address      | 1.0.2                 | Address to listen on for web interface and telemetry. | :9114 |
 | web.telemetry-path      | 1.0.2                 | Path under which to expose metrics. | /metrics |
 | version                 | 1.0.2                 | Show version info on stdout and exit. | |
+| es.node                 | 1.0.4rc1              | Name of elastic node. The name here should be the same as seen by the cluster, meaning the hostname could be different from the one the cluster sees. | |
+| es.clusternode          | Farfetch Version      | If true, query nodes stats on cluster. This flag needs (`es.node=NODENAME`) to work properly. It compares and shows metric if respective node is seen by the cluster. `es.uri` flag should be pointing to cluster url and not to self localhost.  | false |
 
-Commandline parameters start with a single `-` for versions less than `1.1.0rc1`. 
-For versions greater than `1.1.0rc1`, commandline parameters are specified with `--`. Also, all commandline parameters can be provided as environment variables. The environment variable name is derived from the parameter name
+All commandline parameters can be provided as environment variables. The environment variable name is derived from the parameter name
 by replacing `.` with `_` and upper-casing the parameter name.
- 
-### Metrics
+
+## Metrics
 
 |Name                                                                   |Type       |Cardinality  |Help
 |----                                                                   |----       |-----------  |----
@@ -182,8 +184,15 @@ by replacing `.` with `_` and upper-casing the parameter name.
 | elasticsearch_clusterinfo_last_retrieval_success_ts                   | gauge     | 1           | Timestamp of the last successful cluster info retrieval
 | elasticsearch_clusterinfo_up                                          | gauge     | 1           | Up metric for the cluster info collector
 | elasticsearch_clusterinfo_version_info                                | gauge     | 6           | Constant metric with ES version information as labels
+| elasticsearch_node_in_cluster_nodesexists                             | counter   | 1           | Validates if ES Node is in the cluster.
 
-### Alerts & Recording Rules
+### Example
+
+```bash
+./elasticsearch_exporter --es.uri="http://elksearch-cluster-api-endpoint:9200" --es.node=ELKNODE --web.listen-address=":5114" --es.clusternode -es.ssl-skip-verify -es.timeout=9s
+```
+
+## Alerts & Recording Rules
 
 We provide examples for [Prometheus](http://prometheus.io) [alerts and recording rules](examples/prometheus/elasticsearch.rules) as well as an [Grafana](http://www.grafana.org) [Dashboard](examples/grafana/dashboard.json) and a [Kubernetes](http://kubernetes.io) [Deployment](examples/kubernetes/deployment.yml).
 
@@ -192,7 +201,7 @@ Depending on your setup, it can derived from the platform metadata:
 
 For example on [GCE](https://cloud.google.com)
 
-```
+```yaml
 - source_labels: [__meta_gce_metadata_Cluster]
   separator: ;
   regex: (.*)
@@ -203,7 +212,7 @@ For example on [GCE](https://cloud.google.com)
 
 Please refer to the [Prometheus SD documentation](https://prometheus.io/docs/operating/configuration/) to see which metadata labels can be used to create the `cluster` label.
 
-## Credit & License
+### Credit & License
 
 `elasticsearch_exporter` is maintained by the nice folks from [JustWatch](https://www.justwatch.com/)
 and licensed under the terms of the Apache license.
@@ -217,7 +226,7 @@ Maintainers of this repository:
 
 Please refer to the Git commit log for a complete list of contributors.
 
-## Contributing
+### Contributing
 
 We welcome any contributions. Please fork the project on GitHub and open
 Pull Requests for any proposed changes.

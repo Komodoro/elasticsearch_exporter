@@ -186,20 +186,17 @@ type NodeStatsIndicesIndexingResponse struct {
 	DeleteTotal   int64 `json:"delete_total"`
 	DeleteTime    int64 `json:"delete_time_in_millis"`
 	DeleteCurrent int64 `json:"delete_current"`
-	IsThrottled   bool  `json:"is_throttled"`
-	ThrottleTime  int64 `json:"throttle_time_in_millis"`
 }
 
 // NodeStatsIndicesMergesResponse defines node stats merges information structure for indices
 type NodeStatsIndicesMergesResponse struct {
-	Current            int64 `json:"current"`
-	CurrentDocs        int64 `json:"current_docs"`
-	CurrentSize        int64 `json:"current_size_in_bytes"`
-	Total              int64 `json:"total"`
-	TotalDocs          int64 `json:"total_docs"`
-	TotalSize          int64 `json:"total_size_in_bytes"`
-	TotalTime          int64 `json:"total_time_in_millis"`
-	TotalThrottledTime int64 `json:"total_throttled_time_in_millis"`
+	Current     int64 `json:"current"`
+	CurrentDocs int64 `json:"current_docs"`
+	CurrentSize int64 `json:"current_size_in_bytes"`
+	Total       int64 `json:"total"`
+	TotalDocs   int64 `json:"total_docs"`
+	TotalSize   int64 `json:"total_size_in_bytes"`
+	TotalTime   int64 `json:"total_time_in_millis"`
 }
 
 // NodeStatsIndicesGetResponse defines node stats get information structure for indices
@@ -224,8 +221,6 @@ type NodeStatsIndicesSearchResponse struct {
 	FetchCurrent int64 `json:"fetch_current"`
 	SuggestTotal int64 `json:"suggest_total"`
 	SuggestTime  int64 `json:"suggest_time_in_millis"`
-	ScrollTotal  int64 `json:"scroll_total"`
-	ScrollTime   int64 `json:"scroll_time_in_millis"`
 }
 
 // NodeStatsIndicesFlushResponse defines node stats flush information structure for indices
