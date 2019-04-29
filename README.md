@@ -61,7 +61,7 @@ elasticsearch_exporter --help
 | web.telemetry-path      | 1.0.2                 | Path under which to expose metrics. | /metrics |
 | version                 | 1.0.2                 | Show version info on stdout and exit. | |
 | es.node                 | 1.0.4rc1              | Name of elastic node. The name here should be the same as seen by the cluster, meaning the hostname could be different from the one the cluster sees. | |
-| es.clusternode          | Farfetch Version      | If true, query nodes stats on cluster. This flag needs (`es.node=NODENAME`) to work properly. It compares and shows metric if respective node is seen by the cluster. `es.uri` flag should be pointing to cluster url and not to self localhost.  | false |
+| es.clusternode          | Specific Version      | If true, query nodes stats on cluster. This flag needs (`es.node=NODENAME`) to work properly. It compares and shows metric if respective node is seen by the cluster. `es.uri` flag should be pointing to cluster url and not to self localhost.  | false |
 
 All commandline parameters can be provided as environment variables. The environment variable name is derived from the parameter name
 by replacing `.` with `_` and upper-casing the parameter name.
